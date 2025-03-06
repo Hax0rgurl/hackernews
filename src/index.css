@@ -5,33 +5,33 @@
  
 @layer base {
   :root {
-    --background: 39 100% 99%;
-    --foreground: 20 0% 20%;
+    --background: 0 0% 0%;
+    --foreground: 120 100% 50%;
 
-    --card: 39 100% 99%;
-    --card-foreground: 20 0% 20%;
+    --card: 0 0% 10%;
+    --card-foreground: 120 100% 50%;
  
-    --popover: 39 100% 99%;
-    --popover-foreground: 20 0% 20%;
+    --popover: 0 0% 10%;
+    --popover-foreground: 120 100% 50%;
  
-    --primary: 24 100% 50%;
-    --primary-foreground: 39 100% 99%;
+    --primary: 120 100% 45%;
+    --primary-foreground: 0 0% 0%;
  
-    --secondary: 39 45% 94%;
-    --secondary-foreground: 24 100% 45%;
+    --secondary: 120 70% 20%;
+    --secondary-foreground: 120 100% 50%;
  
-    --muted: 39 45% 94%;
-    --muted-foreground: 20 0% 45%;
+    --muted: 0 0% 15%;
+    --muted-foreground: 120 70% 40%;
  
-    --accent: 39 45% 94%;
-    --accent-foreground: 24 100% 45%;
+    --accent: 120 70% 20%;
+    --accent-foreground: 120 100% 50%;
  
     --destructive: 0 100% 50%;
-    --destructive-foreground: 39 100% 99%;
+    --destructive-foreground: 0 0% 0%;
 
-    --border: 24 100% 90%;
-    --input: 39 45% 94%;
-    --ring: 24 100% 50%;
+    --border: 120 70% 30%;
+    --input: 120 70% 20%;
+    --ring: 120 100% 45%;
  
     --radius: 0.25rem;
   }
@@ -40,22 +40,23 @@
 @layer base {
   body {
     @apply bg-background text-foreground;
-    font-family: Verdana, Geneva, sans-serif;
+    font-family: monospace;
   }
 }
 
 @layer utilities {
-  .hn-link {
-    color: #000000;
+  .matrix-link {
+    color: #00ff00;
     text-decoration: none;
   }
   
-  .hn-link:visited {
-    color: #828282;
+  .matrix-link:visited {
+    color: #00cc00;
   }
   
-  .hn-link:hover {
+  .matrix-link:hover {
     text-decoration: underline;
+    text-shadow: 0 0 5px #00ff00;
   }
 }
  

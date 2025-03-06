@@ -17,11 +17,14 @@ const MatrixBackground = () => {
     resizeCanvas();
     window.addEventListener('resize', resizeCanvas);
 
-    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789$&%*()[]{}|;:<>?/\\';
-    const fontSize = 14;
-    const columns = Math.floor(canvas.width / fontSize);
+    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+    const fontSize = 10;
+    const columns = canvas.width / fontSize;
 
-    const drops = new Array(columns).fill(1);
+    const drops = [];
+    for (let i = 0; i < columns; i++) {
+      drops[i] = 1;
+    }
 
     const draw = () => {
       ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';

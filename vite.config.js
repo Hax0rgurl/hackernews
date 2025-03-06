@@ -11,6 +11,8 @@ export default defineConfig(({ mode }) => ({
     host: "::",
     port: "8080",
   },
+  // Add base configuration for GitHub Pages
+  base: "./",
   plugins: [
     react(),
     mode === 'development' && componentTagger(),

@@ -1,3 +1,4 @@
+
 import React, { useEffect, useRef } from 'react';
 
 const MatrixBackground = () => {
@@ -8,8 +9,13 @@ const MatrixBackground = () => {
     const ctx = canvas.getContext('2d');
     let animationFrameId;
 
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
+    const resizeCanvas = () => {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    };
+
+    resizeCanvas();
+    window.addEventListener('resize', resizeCanvas);
 
     const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
     const fontSize = 10;
@@ -44,6 +50,7 @@ const MatrixBackground = () => {
     draw();
 
     return () => {
+      window.removeEventListener('resize', resizeCanvas);
       cancelAnimationFrame(animationFrameId);
     };
   }, []);

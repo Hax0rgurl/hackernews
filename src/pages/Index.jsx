@@ -1,10 +1,9 @@
-import { useState, useEffect } from 'react';
+
+import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { ExternalLink, Terminal } from 'lucide-react';
-import MatrixBackground from '@/components/MatrixBackground';
+import { ArrowUpIcon, ExternalLink } from 'lucide-react';
 import Footer from '@/components/Footer';
 
 const fetchTopStories = async () => {
@@ -17,7 +16,6 @@ const fetchTopStories = async () => {
 
 const Index = () => {
   const [searchTerm, setSearchTerm] = useState('');
-  const [typingEffect, setTypingEffect] = useState('');
   const { data, isLoading, error } = useQuery({
     queryKey: ['topStories'],
     queryFn: fetchTopStories,
@@ -27,76 +25,83 @@ const Index = () => {
     story.title.toLowerCase().includes(searchTerm.toLowerCase())
   ) || [];
 
-  useEffect(() => {
-    const text = "Hacker News Terminal";
-    let i = 0;
-    const typingInterval = setInterval(() => {
-      if (i < text.length) {
-        setTypingEffect((prev) => prev + text.charAt(i));
-        i++;
-      } else {
-        clearInterval(typingInterval);
-      }
-    }, 100);
-
-    return () => clearInterval(typingInterval);
-  }, []);
-
   return (
     <>
-      <div className="container mx-auto p-4 bg-background/80 relative z-10 min-h-screen">
-        <MatrixBackground />
-        <h1 className="text-4xl font-bold mb-6 text-primary text-glow flex items-center">
-        <Terminal className="mr-2" />
-        {typingEffect}<span className="animate-pulse">_</span>
-      </h1>
-      <Input
-        type="text"
-        placeholder="Hack the search..."
-        value={searchTerm}
-        onChange={(e) => setSearchTerm(e.target.value)}
-        className="mb-4 bg-input text-primary border-primary"
-      />
-      {isLoading && (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {[...Array(9)].map((_, index) => (
-            <Card key={index} className="animate-pulse bg-card">
-              <CardHeader>
-                <div className="h-6 bg-secondary rounded w-3/4"></div>
-              </CardHeader>
-              <CardContent>
-                <div className="h-4 bg-secondary rounded w-1/4 mb-2"></div>
-                <div className="h-4 bg-secondary rounded w-1/2"></div>
-              </CardContent>
-            </Card>
-          ))}
+      <div className="container mx-auto p-4 max-w-4xl">
+        <div className="bg-[#ff6600] p-2 flex items-center gap-2">
+          <div className="font-bold text-lg text-black">Hacker News</div>
+          <div className="text-sm text-black flex space-x-2">
+            <a href="#" className="hover:underline">new</a>
+            <span>|</span>
+            <a href="#" className="hover:underline">past</a>
+            <span>|</span>
+            <a href="#" className="hover:underline">comments</a>
+            <span>|</span>
+            <a href="#" className="hover:underline">ask</a>
+            <span>|</span>
+            <a href="#" className="hover:underline">show</a>
+            <span>|</span>
+            <a href="#" className="hover:underline">jobs</a>
+          </div>
         </div>
-      )}
-      {error && <p className="text-destructive">Error: {error.message}</p>}
-      {!isLoading && !error && (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {filteredStories.map((story) => (
-            <Card key={story.objectID} className="bg-card/90 border-primary hover:shadow-lg hover:shadow-pink-500/50 transition-all duration-300 ease-in-out backdrop-blur-sm group">
-              <CardHeader className="group-hover:text-pink-500 transition-colors duration-300">
-                <CardTitle className="text-lg text-primary group-hover:text-pink-500 transition-colors duration-300">{story.title}</CardTitle>
-              </CardHeader>
-              <CardContent className="group-hover:text-pink-300 transition-colors duration-300">
-                <p className="text-sm text-muted-foreground mb-2">Upvotes: {story.points}</p>
-                <Button
-                  variant="outline"
-                  size="sm"
-                  asChild
-                  className="border-primary text-primary hover:bg-pink-500 hover:text-black hover:border-pink-500 transition-colors duration-300"
-                >
-                  <a href={story.url} target="_blank" rel="noopener noreferrer">
-                    Hack <ExternalLink className="ml-2 h-4 w-4" />
-                  </a>
-                </Button>
-              </CardContent>
-            </Card>
-          ))}
+        
+        <div className="my-4">
+          <Input
+            type="text"
+            placeholder="Search stories..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            className="mb-4 border border-gray-300"
+          />
         </div>
-      )}
+        
+        {isLoading && (
+          <div className="space-y-2">
+            {[...Array(9)].map((_, index) => (
+              <div key={index} className="animate-pulse flex">
+                <div className="h-4 w-4 bg-gray-300 mr-2"></div>
+                <div className="h-4 bg-gray-300 rounded w-3/4"></div>
+              </div>
+            ))}
+          </div>
+        )}
+        
+        {error && <p className="text-destructive">Error: {error.message}</p>}
+        
+        {!isLoading && !error && (
+          <ol className="list-decimal list-inside space-y-2 pl-5">
+            {filteredStories.map((story, index) => (
+              <li key={story.objectID} className="text-sm">
+                <div className="flex items-start">
+                  <span className="text-gray-500 mr-1">{index + 1}.</span>
+                  <div>
+                    <div className="flex items-center">
+                      <a 
+                        href={story.url || `https://news.ycombinator.com/item?id=${story.objectID}`} 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        className="text-black hover:underline"
+                      >
+                        {story.title}
+                      </a>
+                      {story.url && (
+                        <span className="text-gray-500 text-xs ml-1">
+                          ({new URL(story.url).hostname.replace('www.', '')})
+                        </span>
+                      )}
+                    </div>
+                    <div className="text-xs text-gray-500">
+                      <span>{story.points} points</span> by <span className="hover:underline cursor-pointer">{story.author}</span> {story.created_at ? new Date(story.created_at).toLocaleString() : 'unknown time'} | 
+                      <span className="hover:underline cursor-pointer ml-1">
+                        {story.num_comments || 0} comments
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </li>
+            ))}
+          </ol>
+        )}
       </div>
       <Footer />
     </>

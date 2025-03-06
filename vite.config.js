@@ -11,7 +11,7 @@ export default defineConfig(({ mode }) => ({
     host: "::",
     port: "8080",
   },
-  // Explicitly setting base for GitHub Pages
+  // Explicitly setting base for GitHub Pages deployment from root
   base: "/",
   plugins: [
     react(),
